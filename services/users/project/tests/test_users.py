@@ -168,7 +168,11 @@ class TestUserService(BaseTestCase):
         with self.client:
             response = self.client.post(
                 '/',
-                data=dict(username='valentin', email='valentin@test.com', password='test'),
+                data=dict(
+                    username='valentin',
+                    email='valentin@test.com',
+                    password='test'
+                ),
                 follow_redirects=True
             )
             self.assertEqual(response.status_code, 200)
@@ -194,7 +198,7 @@ class TestUserService(BaseTestCase):
             self.assertEqual(response.status_code, 400)
             self.assertIn('Invalid payload', data['message'])
             self.assertIn('fail', data['status'])
-            
+
 
 if __name__ == '__main__':
     unittest.main()
