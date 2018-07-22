@@ -49,6 +49,7 @@ class TestTestingConfig(TestCase):
         self.assertTrue(app.config['TOKEN_EXPIRATION_DAYS'] == 0)
         self.assertTrue(app.config['TOKEN_EXPIRATION_SECONDS'] == 3)
 
+
 class TestProductionConfig(TestCase):
     def create_app(self):
         app.config.from_object('project.config.ProductionConfig')
