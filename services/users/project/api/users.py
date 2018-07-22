@@ -13,7 +13,8 @@ def index():
     if request.method == 'POST':
         username = request.form['username']
         email = request.form['email']
-        db.session.add(User(username, email))
+        password = request.form['password']
+        db.session.add(User(username, email, password))
         db.session.commit()
     users = User.query.all()
     return render_template('index.html', users=users)
@@ -39,10 +40,11 @@ def add_user():
         return jsonify(response_object), 400
     username = post_data.get('username')
     email = post_data.get('email')
+    password = post_data.get('password')
     try:
         user = User.query.filter_by(email=email).first()
         if not user:
-            db.session.add(User(username, email))
+            db.session.add(User(username, email, password))
             db.session.commit()
             response_object = {
                 'status': 'success',
@@ -52,7 +54,7 @@ def add_user():
         else:
             response_object['message'] = 'Sorry. That email already exists.'
             return jsonify(response_object), 400
-    except exc.IntegrityError as e:
+    except (exc.IntegrityError, ValueError) as e:
         db.session.rollback()
         return jsonify(response_object), 400
 
