@@ -21,7 +21,7 @@ docker-compose -f docker-compose-dev.yml down
 # run e2e tests
 docker-compose -f docker-compose-dev.yml up -d --build
 docker-compose -f docker-compose-dev.yml run users python manage.py recreate_db
-./node_modules/.bin/cypress run --config baseUrl=http://192.168.99.100
+./node_modules/.bin/cypress run --config baseUrl=http://localhost
 inspect $? e2e
 docker-compose -f docker-compose-dev.yml down
 
