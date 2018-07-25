@@ -8,13 +8,11 @@ FROM node:10.4.1-alpine as builder
 # set working directory
 WORKDIR /usr/src/app
 
-# add `/usr/src/app/node_modules/.bin` to $PATH
+# install app dependencies
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
-
-# install and cache app dependencies
 COPY package.json /usr/src/app/package.json
 RUN npm install --silent
-RUN npm install react-scripts -g --silent
+RUN npm install react-scripts@1.1.4 -g --silent
 
 # set environment variables
 ARG REACT_APP_USERS_SERVICE_URL
