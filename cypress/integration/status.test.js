@@ -2,7 +2,7 @@ const randomstring = require('randomstring');
 
 const username = randomstring.generate();
 const email = `${username}@test.com`;
-
+const password = 'greaterthanten';
 
 describe('Status', () => {
   it('sould not diplay user info if a user is not logged in', () => {
@@ -22,7 +22,7 @@ describe('Status', () => {
       .visit('/register')
       .get('input[name="username"]').type(username)
       .get('input[name="email"]').type(email)
-      .get('input[name="password"]').type('test')
+      .get('input[name="password"]').type(password)
       .get('input[type="submit"]').click()
       .get('.navbar-burger').click();
 
