@@ -32,6 +32,9 @@ then
     }
 
     deploy_cluster() {
+
+      cluster="test-driven-staging-cluster"
+
       # users
       service="testdriven-users-stage-service"
       template="ecs_users_stage_taskdefinition.json"
