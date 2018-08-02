@@ -23,10 +23,11 @@ dev() {
 
 # run e2e tests
 e2e() {
-  docker-compose -f docker-compose-dev.yml up -d --build
+  docker-compose -f docker-compose-stage.yml up -d --build
+  docker-compose -f docker-compose-stage.yml run users python manage.py recreate_db
   ./node_modules/.bin/cypress run
   inspect $? e2e
-  docker-compose -f docker-compose-dev.yml down
+  docker-compose -f docker-compose-$1.yml down
 }
 
 # run appropriate tests
@@ -37,11 +38,11 @@ if [[ "${env}" == "development" ]]; then
 elif [[ "${env}" == "staging" ]]; then
   echo "\n"
   echo "Running e2e tests!\n"
-  e2e
+  e2e stage
 elif [[ "${env}" == "production" ]]; then
   echo "\n"
   echo "Running e2e tests!\n"
-  e2e
+  e2e prod
 else
   echo "\n"
   echo "Running client and server-side tests!\n"
