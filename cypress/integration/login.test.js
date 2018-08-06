@@ -40,13 +40,15 @@ describe('Login', () => {
       .wait(100);
 
     // assert user is redirected to '/'
+    cy.get('.notification.is-success').contains('Welcome!');
+    cy.contains('Users').click();
     // assert '/' is displayed properly
+    cy.location().should((loc) => { expect(loc.pathname).to.eq('/all-users') });
     cy.contains('All Users');
     cy
       .get('table')
       .find('tbody > tr').last()
       .find('td').contains(username);
-    cy.get('.notification.is-success').contains('Welcome!');
     cy.get('.navbar-menu').within(() => {
       cy
         .get('.navbar-item').contains('User Status')

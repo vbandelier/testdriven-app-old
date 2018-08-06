@@ -54,7 +54,7 @@ class Form extends Component {
       email: this.state.formData.email,
       password: this.state.formData.password
     };
-    if (formType == 'Register') {
+    if (formType === 'Register') {
       data.username = this.state.formData.username;
     }
     const url = `${process.env.REACT_APP_USERS_SERVICE_URL}/auth/${formType.toLowerCase()}`;
