@@ -3,7 +3,8 @@ import coverage
 
 from flask.cli import FlaskGroup
 
-from project import create_app
+from project import create_app, db
+from project.api.models import Exercise
 
 
 COV = coverage.coverage(
@@ -44,6 +45,13 @@ def cov():
         COV.erase()
         return 0
     return 1
+
+
+@cli.command()
+def recreate_db():
+    db.drop_all()
+    db.create_all()
+    db.session.commit()
 
 
 if __name__ == '__main__':
