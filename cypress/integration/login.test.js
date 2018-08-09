@@ -5,7 +5,8 @@ const email = `${username}@test.com`;
 const password = 'greaterthanten';
 
 
-describe('Login', () => {
+describe('Login', () => {
+
   it('should display the sign in form', () => {
     cy
       .visit('/login')
@@ -14,18 +15,21 @@ describe('Login', () => {
       .get('input[disabled]')
       .get('.validation-list')
       .get('.validation-list > .error').first().contains(
-        'Email is required.'
-      );
+        'Email is required.');
   });
 
-  it('should allow a user to sign in', () => {
+  it('should allow a user to sign in', () => {
+
+    cy.server();
+    cy.route('POST', 'auth/login').as('loginUser');
+
     // register user
     cy
       .visit('/register')
       .get('input[name="username"]').type(username)
       .get('input[name="email"]').type(email)
       .get('input[name="password"]').type(password)
-      .get('input[type="submit"]').click();
+      .get('input[type="submit"]').click()
 
     // log a user out
     cy.get('.navbar-burger').click();
@@ -37,18 +41,20 @@ describe('Login', () => {
       .get('input[name="email"]').type(email)
       .get('input[name="password"]').type(password)
       .get('input[type="submit"]').click()
-      .wait(100);
+      .wait('@loginUser');
 
     // assert user is redirected to '/'
     cy.get('.notification.is-success').contains('Welcome!');
     cy.contains('Users').click();
-    // assert '/' is displayed properly
+    // assert '/all-users' is displayed properly
+    cy.get('.navbar-burger').click();
     cy.location().should((loc) => { expect(loc.pathname).to.eq('/all-users') });
     cy.contains('All Users');
     cy
       .get('table')
       .find('tbody > tr').last()
       .find('td').contains(username);
+    cy.get('.navbar-burger').click();
     cy.get('.navbar-menu').within(() => {
       cy
         .get('.navbar-item').contains('User Status')
@@ -58,7 +64,8 @@ describe('Login', () => {
     });
 
     // log a user out
-    cy.get('a').contains('Log Out').click();
+    cy
+      .get('a').contains('Log Out').click();
 
     // assert '/logout' is displayed properly
     cy.get('p').contains('You are now logged out');
@@ -69,9 +76,11 @@ describe('Login', () => {
         .get('.navbar-item').contains('Log In')
         .get('.navbar-item').contains('Register');
     });
+
   });
 
   it('should throw an error if the credentials are incorrect', () => {
+
     // attempt to log in
     cy
       .visit('/login')
@@ -103,16 +112,8 @@ describe('Login', () => {
       .wait(100);
 
     // assert user login failed
-    cy
-      .visit('/login')
-      .get('input[name="email"]').type('incorrect@email.com')
-      .get('input[name="password"]').type(password)
-      .get('input[type="submit"]').click();
-
-    // assert user login failed
     cy.contains('All Users').should('not.be.visible');
     cy.contains('Login');
-    cy.get('.navbar-burger').click();
     cy.get('.navbar-menu').within(() => {
       cy
         .get('.navbar-item').contains('User Status').should('not.be.visible')
@@ -123,5 +124,7 @@ describe('Login', () => {
     cy
       .get('.notification.is-success').should('not.be.visible')
       .get('.notification.is-danger').contains('User does not exist.');
+
   });
+
 });

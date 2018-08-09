@@ -1,4 +1,4 @@
-import randomstring = require('randomstring');
+const randomstring = require('randomstring');
 
 const username = randomstring.generate();
 const email = `${username}@test.com`;

@@ -33,11 +33,11 @@ client() {
 
 # run e2e tests
 e2e() {
-  docker-compose -f docker-compose-stage.yml up -d --build
-  docker-compose -f docker-compose-stage.yml run users python manage.py recreate_db
-  ./node_modules/.bin/cypress run
+  docker-compose -f docker-compose-dev.yml up -d --build
+  docker-compose -f docker-compose-dev.yml run users python manage.py recreate_db
+  ./node_modules/.bin/cypress run --env REACT_APP_API_GATEWAY_URL=$REACT_APP_API_GATEWAY_URL
   inspect $? e2e
-  docker-compose -f docker-compose-stage.yml down
+  docker-compose -f docker-compose-dev.yml down
 }
 
 # run all tests
