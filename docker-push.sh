@@ -49,11 +49,11 @@ then
     docker push $REPO/$SWAGGER:$TAG
     # exercises
     docker build $EXERCISES_REPO -t $EXERCISES:$COMMIT -f Dockerfile-$DOCKER_ENV
-    docker tag $EXERCISES:$COMMIT $REPO/$EXERCISES_$TAG
+    docker tag $EXERCISES:$COMMIT $REPO/$EXERCISES:$TAG
     docker push $REPO/$EXERCISES:$TAG
     # exercises db
     docker build $EXERCISES_DB_REPO -t $EXERCISES_DB:$COMMIT -f Dockerfile
-    docker tag $EXERCISES:$COMMIT $REPO/$EXERCISES_$TAG
+    docker tag $EXERCISES_DB:$COMMIT $REPO/$EXERCISES_DB:$TAG
     docker push $REPO/$EXERCISES_DB:$TAG
   fi
 fi
