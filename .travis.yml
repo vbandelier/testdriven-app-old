@@ -3,6 +3,8 @@ sudo: required
 services:
   - docker
 
+language: python,
+
 env:
   DOCKER_COMPOSE_VERSION: 1.21.1
   COMMIT: ${TRAVIS_COMMIT::8}
