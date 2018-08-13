@@ -61,6 +61,14 @@ then
       echo "$task_def"
       register_definition
       update_service
+
+      # exercises
+      service="testdriven-exercises-prod-service"
+      template="ecs_exercises_prod_taskdefinition.json"
+      task_template=$(cat "ecs/$template")
+      task_def=$(cat "$task_template" $AWS_ACCOUNT_ID "tbd")
+      echo "$task_def"
+      register_definition
     }
 
     configure_aws_cli
