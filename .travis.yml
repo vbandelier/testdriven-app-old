@@ -36,7 +36,7 @@ before_script:
   - export REACT_APP_EXERCISES_SERVICE_URL=http://127.0.0.1
   - export REACT_APP_API_GATEWAY_URL=https://jd20u4k0q8.execute-api.us-east-1.amazonaws.com/v1/execute
   - if [[ "$TRAVIS_BRANCH" == "staging" ]]; then export LOAD_BALANCER_DNS_NAME=http://testdriven-staging-alb-264323341.us-east-1.elb.amazonaws.com; fi
-  - if [[ "$TRAVIS_BRANCH" == "production" ]]; then export LOAD_BALANCER_DNS_NAME=http://testdriven-production-alb-264323341.us-east-1.elb.amazonaws.com; fi
+  - if [[ "$TRAVIS_BRANCH" == "production" ]]; then export LOAD_BALANCER_DNS_NAME=http://testdriven-production-alb-669688830.us-east-1.elb.amazonaws.com; fi
   - npm install
 
 script:
