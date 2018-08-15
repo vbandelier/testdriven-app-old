@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import AceEditor from 'react-ace';
 import axios from 'axios';
-import 'brace/mode/python';
-import 'brace/theme/solarized_dark';
+
+import Exercise from './Exercise';
 
 class Exercises extends Component {
   constructor(props) {
@@ -73,62 +72,13 @@ class Exercises extends Component {
           </div>
         }
         {this.state.exercises.length &&
-          <div key={this.state.exercises[0].id}>
-            <h5 className="title is-5">{this.state.exercises[0].body}</h5>
-            <AceEditor
-              mode='python'
-              theme='solarized_dark'
-              name={(this.state.exercises[0].id).toString()}
-              onChange={this.onChange}
-              onLoad={this.onLoad}
-              fontSize={14}
-              height={'175px'}
-              showPrintMargin={true}
-              showGutter={true}
-              highlightActiveLine={true}
-              value={this.state.editor.value}
-              style={{
-                marginBottom: '10px'
-              }}
-              editorProps={{
-                $blockScrolling: Infinity
-              }}
-            />
-            {this.props.isAuthenticated &&
-              <div>
-                <button
-                  className="button is-primary"
-                  onClick={this.submitExercise}
-                  disabled={this.state.editor.button.isDisabled}
-                >Run Code</button>
-                {this.state.editor.showGrading &&
-                  <h5 className="title is-5">
-                    <span className="icon is-large">
-                      <i className="fas fa-spinner fa-pulse"></i>
-                    </span>
-                    <span className="grade-text">Grading...</span>
-                  </h5>
-                }
-                {this.state.editor.showCorrect &&
-                  <h5 className="title is-5">
-                    <span className="icon is-large">
-                      <i className="fas fa-check"></i>
-                    </span>
-                    <span className="grade-text">Correct!</span>
-                  </h5>
-                }
-                {this.state.editor.showIncorrect &&
-                  <h5 className="title is-5">
-                    <span className="icon is-large">
-                      <i className="fas fa-times"></i>
-                    </span>
-                    <span className="grade-text">Incorrect!</span>
-                  </h5>
-                }
-              </div>
-            }
-            <br/><br/>
-          </div>
+          <Exercise
+            exercise={this.state.exercises[0]}
+            editor={this.state.editor}
+            isAuthenticated={this.state.isAuthenticated}
+            onChange={this.onChange}
+            submitExercise={this.submitExercise}
+          />
         }
       </div>
     )
